@@ -1,4 +1,7 @@
 const carte = document.querySelectorAll('.carta');
+const modale = document.querySelector('modal');
+const giocaDiNuovo = modale.querySelector('.giocaDiNuovo');
+
 let cartaGirata = false;
 let primaCarta, secondaCarta;
 let bloccaBoard = false;
@@ -29,7 +32,7 @@ function disabilitaCarte(){
     primaCarta.removeEventListener('click', giraCarta);
     secondaCarta.removeEventListener('click', giraCarta);
     resetBoard();
-    
+    finePartita();
 }
 
 function rigiraCarte(){
@@ -48,4 +51,21 @@ function resetBoard(){
     [primaCarta, secondaCarta] = [null, null];
 }
 
+(function mischia(){
+    carte.forEach(carta => {
+        const randPos = Math.floor(Math.random() * 12);
+        carta.style.order = randPos;
+    })
+})();
+
+function finePartita(){
+    const carteGirate = document.querySelectorAll('.flip').length;
+    if (carteGirate === 12){
+        const body = document.body;
+        modale.removeAttribute('hidden');
+        body.classList.add("vittoria");
+    }
+}
+
 carte.forEach(carta => carta.addEventListener('click', giraCarta));
+giocaDiNuovo.addEventListener('click',() => location.reload());
